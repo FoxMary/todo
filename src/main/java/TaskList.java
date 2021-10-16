@@ -17,8 +17,8 @@ public class TaskList {
                 if (tokens.length == 1) out.println("Неверное описание задачи");
                 else add(tokens[1]);
             } else if (msg.startsWith("print")) {
-                if (tokens.length == 1) printNotDone();
-                else if (tokens[1].equals("all")) printAll();
+                if (tokens.length == 1) print(false);
+                else if (tokens[1].equals("all")) print(true);
                 else out.println("Неверный аргумент");
             } else if (msg.startsWith("toggle")) {
                 if (tokens.length == 1) out.println("Неверный номер задачи");
@@ -32,9 +32,7 @@ public class TaskList {
                 }
             } else if (msg.startsWith("quit")) {
                 break;
-            } else {
-                out.println("Неверная команда");
-            }
+            } else out.println("Неверная команда");
         }
     }
 
@@ -43,17 +41,17 @@ public class TaskList {
         taskList.add(new Task(1, description));
     }
 
-    private void printNotDone() {
-        for (Task t : taskList) {
-            if (!t.isStatus()) out.println(t.getId() + ". [ ] " + t.getDescription());
-        }
-    }
-
-    private void printAll() {
-        for (Task t : taskList) {
-            String st = "[ ]";
-            if(t.isStatus()) st = "[x]";
-            out.println(t.getId() + ". " + st + " " + t.getDescription());
+    private void print(boolean argument) {
+        if (!argument) {
+            for (Task t : taskList) {
+                if (!t.isStatus()) out.println(t.getId() + ". [ ] " + t.getDescription());
+            }
+        } else {
+            for (Task t : taskList) {
+                String st = "[ ]";
+                if(t.isStatus()) st = "[x]";
+                out.println(t.getId() + ". " + st + " " + t.getDescription());
+            }
         }
     }
 
