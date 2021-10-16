@@ -1,6 +1,12 @@
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
         TaskList list = new TaskList();
-        list.commands();
+        try {
+            list.commands();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

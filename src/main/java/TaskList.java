@@ -1,17 +1,19 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static java.lang.System.*;
 
 public class TaskList {
     private final List<Task> taskList = new ArrayList<>();
 
-    public void commands() {
-        Scanner scanner = new Scanner(in);
+    public void commands() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
         while (true) {
-            String msg = scanner.nextLine();
+            String msg = reader.readLine();
             String[] tokens = msg.split("\\s", 2);
             if (msg.startsWith("add")) {
                 if (tokens.length == 1) out.println("Неверное описание задачи");
@@ -31,6 +33,7 @@ public class TaskList {
                     }
                 }
             } else if (msg.startsWith("quit")) {
+                reader.close();
                 break;
             } else out.println("Неверная команда");
         }
