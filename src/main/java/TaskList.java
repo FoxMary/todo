@@ -14,20 +14,20 @@ public class TaskList {
             String msg = scanner.nextLine();
             String[] tokens = msg.split("\\s", 2);
             if (msg.startsWith("add")) {
-                if (tokens.length == 1) out.println("Неверная команда");
+                if (tokens.length == 1) out.println("Неверное описание задачи");
                 else add(tokens[1]);
             } else if (msg.startsWith("print")) {
                 if (tokens.length == 1) printNotDone();
                 else if (tokens[1].equals("all")) printAll();
-                else out.println("Неверная команда");
+                else out.println("Неверный аргумент");
             } else if (msg.startsWith("toggle")) {
-                if (tokens.length == 1) out.println("Неверная команда");
+                if (tokens.length == 1) out.println("Неверный номер задачи");
                 else {
                     try {
                         int i = Integer.parseInt(tokens[1]);
                         toggle(i);
                     } catch (NumberFormatException e) {
-                        out.println("Неверная команда");
+                        out.println("Неверный номер задачи");
                     }
                 }
             } else if (msg.startsWith("quit")) {
