@@ -45,17 +45,12 @@ public class TaskList {
     }
 
     private void print(boolean argument) {
-        if (!argument) {
-            for (Task t : taskList) {
-                if (!t.isStatus()) out.println(t.getId() + ". [ ] " + t.getDescription());
-            }
-        } else {
             for (Task t : taskList) {
                 String st = "[ ]";
-                if(t.isStatus()) st = "[x]";
-                out.println(t.getId() + ". " + st + " " + t.getDescription());
+                if (t.isStatus()) st = "[x]";
+                if (argument) out.println(t.getId() + ". " + st + " " + t.getDescription());
+                if (!argument & !t.isStatus()) out.println(t.getId() + ". " + st + " " + t.getDescription());
             }
-        }
     }
 
     private void toggle(int id) {
