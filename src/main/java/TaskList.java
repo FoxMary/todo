@@ -48,8 +48,7 @@ public class TaskList {
             for (Task t : taskList) {
                 String st = "[ ]";
                 if (t.isStatus()) st = "[x]";
-                if (argument) out.println(t.getId() + ". " + st + " " + t.getDescription());
-                if (!argument & !t.isStatus()) out.println(t.getId() + ". " + st + " " + t.getDescription());
+                if (argument || !t.isStatus()) out.println(t.getId() + ". " + st + " " + t.getDescription());
             }
     }
 
