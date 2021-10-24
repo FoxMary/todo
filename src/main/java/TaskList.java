@@ -18,21 +18,24 @@ public class TaskList {
             if (msg.startsWith("add")) {
                 if (tokens.length == 1) out.println("Неверное описание задачи");
                 else add(tokens[1]);
+            }else if (msg.startsWith("edit")) {
+                if (tokens.length == 1) out.println("Неверные номер и описание задачи");
+                else edit(tokens[1]);
+            }else if (msg.startsWith("delete")) {
+                if (tokens.length == 1) out.println("Неверный номер задачи");
+                else delete(tokens[1]);
             } else if (msg.startsWith("print")) {
                 if (tokens.length == 1) print(false);
                 else if (tokens[1].equals("all")) print(true);
                 else out.println("Неверный аргумент");
             } else if (msg.startsWith("toggle")) {
                 if (tokens.length == 1) out.println("Неверный номер задачи");
-                else {
-                    try {
-                        int i = Integer.parseInt(tokens[1]);
-                        toggle(i);
-                    } catch (NumberFormatException e) {
-                        out.println("Неверный номер задачи");
-                    }
-                }
-            } else if (msg.startsWith("quit")) {
+                else toggle(tokens[1]);
+            } else if (msg.startsWith("search")) {
+                if (tokens.length == 1) out.println("Неверный критерий поиска");
+                else search(tokens[1]);
+            }
+            else if (msg.startsWith("quit")) {
                 reader.close();
                 break;
             } else out.println("Неверная команда");
@@ -40,21 +43,62 @@ public class TaskList {
     }
 
     private void add(String description) {
-        taskList.clear();
-        taskList.add(new Task(1, description));
+        taskList.add(new Task(taskList.size() + 1, description));
+    }
+
+    private void edit(String msg) {
+        String[] tokens = msg.split("\\s", 2);
+        if (tokens.length == 1) out.println("Неверное описание задачи");
+        else {
+            try {
+                int i = Integer.parseInt(tokens[0]);
+                if (i <= 0 || i-1 >= taskList.size()) out.println("Задача с таким номером не найдена");
+                else taskList.set(i-1, new Task(i, tokens[1]));
+            } catch (NumberFormatException e) {
+                out.println("Неверный номер задачи");
+            }
+        }
+    }
+
+    private void delete(String id) {
+        try {
+            int i = Integer.parseInt(id);
+            if (i <= 0 || i-1 >= taskList.size()) out.println("Задача с таким номером не найдена");
+            else taskList.remove(i-1);
+        } catch (NumberFormatException e) {
+            out.println("Неверный номер задачи");
+        }
+    }
+
+    private void search(String msg) {
+        boolean coincidence = false;
+        for (Task t : taskList) {
+            if (t.getDescription().contains(msg)) {
+                coincidence = true;
+            String st = "[ ]";
+            if (t.isStatus()) st = "[x]";
+           out.println(t.getId() + ". " + st + " " + t.getDescription());
+            }
+        }
+        if (!coincidence) out.println("Задач не найдено");
     }
 
     private void print(boolean argument) {
-            for (Task t : taskList) {
-                String st = "[ ]";
-                if (t.isStatus()) st = "[x]";
-                if (argument || !t.isStatus()) out.println(t.getId() + ". " + st + " " + t.getDescription());
-            }
+        for (Task t : taskList) {
+            String st = "[ ]";
+            if (t.isStatus()) st = "[x]";
+            if (argument || !t.isStatus()) out.println(t.getId() + ". " + st + " " + t.getDescription());
+        }
     }
 
-    private void toggle(int id) {
-        for (Task t : taskList) {
-            if (t.getId() == id) t.setStatus(!t.isStatus());
+    private void toggle(String id) {
+        try {
+            int i = Integer.parseInt(id);
+            for (Task t : taskList) {
+                if (t.getId() == i) t.setStatus(!t.isStatus());
+            }
+        } catch (NumberFormatException e) {
+            out.println("Неверный номер задачи");
         }
     }
 }
