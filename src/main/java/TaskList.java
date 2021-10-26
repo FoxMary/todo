@@ -65,6 +65,13 @@ public class TaskList {
             int i = Integer.parseInt(id);
             if (i <= 0 || i-1 >= taskList.size()) out.println("Задача с таким номером не найдена");
             else taskList.remove(i-1);
+
+            for (Task t : taskList) {
+                if (t.getId() == i + 1) {
+                    t.setId(i);
+                    i++;
+                }
+            }
         } catch (NumberFormatException e) {
             out.println("Неверный номер задачи");
         }
@@ -75,9 +82,7 @@ public class TaskList {
         for (Task t : taskList) {
             if (t.getDescription().contains(msg)) {
                 coincidence = true;
-            String st = "[ ]";
-            if (t.isStatus()) st = "[x]";
-           out.println(t.getId() + ". " + st + " " + t.getDescription());
+           out.println(t.getId() + ". " + t.getStatusIcon() + " " + t.getDescription());
             }
         }
         if (!coincidence) out.println("Задач не найдено");
@@ -85,18 +90,18 @@ public class TaskList {
 
     private void print(boolean argument) {
         for (Task t : taskList) {
-            String st = "[ ]";
-            if (t.isStatus()) st = "[x]";
-            if (argument || !t.isStatus()) out.println(t.getId() + ". " + st + " " + t.getDescription());
+            if (argument || !t.isStatus()) out.println(t.getId() + ". " + t.getStatusIcon() + " " + t.getDescription());
         }
     }
 
     private void toggle(String id) {
         try {
             int i = Integer.parseInt(id);
-            for (Task t : taskList) {
-                if (t.getId() == i) t.setStatus(!t.isStatus());
-            }
+            if (i > 0 & i < taskList.size()) {
+                for (Task t : taskList) {
+                    if (t.getId() == i) t.setStatus(!t.isStatus());
+                }
+            } else out.println("Задача с таким номером не найдена");
         } catch (NumberFormatException e) {
             out.println("Неверный номер задачи");
         }

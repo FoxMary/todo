@@ -1,10 +1,19 @@
 public class Task {
     private int id;
     private boolean status;
-    private String description;
+    private final String description;
+    private String statusIcon;
+
+    public String getStatusIcon() {
+        return statusIcon;
+    }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isStatus() {
@@ -13,6 +22,8 @@ public class Task {
 
     public void setStatus(boolean status) {
         this.status = status;
+        if (status) statusIcon = "[x]";
+        else statusIcon = "[ ]";
     }
 
     public String getDescription() {
@@ -23,5 +34,6 @@ public class Task {
         this.id = id;
         this.status = false;
         this.description = description;
+        statusIcon = "[ ]";
     }
 }
