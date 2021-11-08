@@ -6,7 +6,7 @@ public class Main {
         try {
             list.commands();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ошибка подключения.");
         }
     }
 }

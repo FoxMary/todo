@@ -1,27 +1,20 @@
+import lombok.Data;
+
+@Data
 public class Task {
-    private int id;
-    private boolean status;
     private String description;
+    private boolean status;
+    private String statusIcon;
 
-    public int getId() {
-        return id;
-    }
-
-    public boolean isStatus() {
-        return status;
+    public Task(String description) {
+        this.description = description;
+        status = false;
+        statusIcon = "[ ]";
     }
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Task(int id, String description) {
-        this.id = id;
-        this.status = false;
-        this.description = description;
+        if (status) statusIcon = "[x]";
+        else statusIcon = "[ ]";
     }
 }
